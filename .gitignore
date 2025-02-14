@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore Kubernetes config and secrets
+kubernetes/secrets-*.yaml
+
+dockerhub-registry.json

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-app-deployment
+  namespace: devops-app-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springboot-app
+  template:
+    metadata:
+      labels:
+        app: springboot-app
+    spec:
+      imagePullSecrets:
+        - name: registry-credentials-secret
+      containers:
+        - name: springboot-app
+          image: biseragaleska/spring-boot-recipes:main-ca34e29
+          ports:
+            - containerPort: 9191
+          env:
+            - name: SPRING_BOOT_APP
+              valueFrom:
+                configMapKeyRef:
+                  name: devops-app-deployment-configmap
+                  key: SPRING_BOOT_APP
+            - name: SPRING_BOOT_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: devops-app-deployment-configmap
+                  key: SPRING_BOOT_PORT
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: devops-app-deployment-configmap
+                  key: SPRING_DATA_MONGODB_URI
